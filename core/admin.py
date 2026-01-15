@@ -32,7 +32,7 @@ class PlantAdmin(admin.ModelAdmin):
 
 
 # --- Common Name Admin ---
-@admin.register(CommonName)
+# @admin.register(CommonName)
 class CommonNameAdmin(admin.ModelAdmin):
     search_fields = ('name', 'plant__scientific_name')
     list_display = ('name', 'plant')
