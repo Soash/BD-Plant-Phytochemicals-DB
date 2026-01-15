@@ -4,79 +4,74 @@
 
 <section class="hero-section text-center py-5 bg-light">
   <div class="container">
-    <h2 class="db-title display-5">Bangladeshi Plant Phytochemicals Database</h2>
-    <p class="text-muted">1<sup>st</sup> Plant Phytochemicals Database in Bangladesh</p>
+	<h2 class="db-title display-5">Bangladeshi Plant Phytochemicals Database</h2>
+	<p class="text-muted">1<sup>st</sup> Plant Phytochemicals Database in Bangladesh</p>
 
-    <!-- SEARCH FORM -->
-    <form method="get" action="">
-      <div class="search-container mt-4">
-        <div class="input-group mb-3">
-          <input
-            type="text"
-            name="q"
-            value="{{ query }}"
-            class="form-control"
-            placeholder="Search by plant name, common name, compound, CID"
-          >
-          <button class="input-group-text btn btn-primary" type="submit">
-            <i class="fa-solid fa-magnifying-glass"></i>
-          </button>
-        </div>
-      </div>
-    </form>
+	<!-- SEARCH FORM -->
+	<form method="get" action="">
+	  <div class="search-container mt-4">
+		<div class="input-group mb-3">
+		  <input type="text" name="q" value="{{ query }}" class="form-control"
+			placeholder="Search by plant name, common name, compound, CID">
+		  <button class="input-group-text btn btn-primary" type="submit">
+			<i class="fa-solid fa-magnifying-glass"></i>
+		  </button>
+		</div>
+	  </div>
+	</form>
   </div>
 </section>
 
 <!-- SEARCH RESULTS -->
 {% if query %}
-<section class="container mt-5">
+	<section class="container mt-5">
 
-  <h5 class="mb-3">
-    Search results for "<strong>{{ query }}</strong>"
-  </h5>
+	<h5 class="mb-3">
+		Search results for "<strong>{{ query }}</strong>"
+	</h5>
 
-  {% if results %}
-  <div class="table-responsive">
-    <table id="resultsTable" class="table table-striped table-bordered table-hover">
-      <thead class="table-dark">
-        <tr>
-          <th>Plant Name</th>
-          <th>Common Name(s)</th>
-          <th>Phytochemical</th>
-          <th>CID</th>
-          <th>Reference</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for r in results %}
-        <tr>
-          <td>{{ r.plant_name }}</td>
-          <td>
-            {% if r.common_name %}
-              {{ r.common_name }}
-            {% else %}
-              -
-            {% endif %}
-          </td>
-          <td>{{ r.compound_name }}</td>
-          <td>{{ r.cid|default:"-" }}</td>
-          <td>
-            {% if r.reference %}
-              <a href="{{ r.reference }}" target="_blank" rel="noopener">Link</a>
-            {% else %}
-              -
-            {% endif %}
-          </td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </div>
-  {% else %}
-    <p class="text-muted">No results found for your query.</p>
-  {% endif %}
+	{% if results %}
+		<div class="table-responsive">
+			<table id="resultsTable" class="table table-striped table-bordered table-hover">
+				<thead class="table-dark">
+					<tr>
+						<th>Plant Name</th>
+						<th>Common Name(s)</th>
+						<th>Phytochemical</th>
+						<th>CID</th>
+						<th>Reference</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for r in results %}
+						<tr>
+							<td>{{ r.plant_name }}</td>
+							<td>
+								{% if r.common_name %}
+								{{ r.common_name }}
+								{% else %}
+								-
+								{% endif %}
+							</td>
+							<td>{{ r.compound_name }}</td>
+							<td>{{ r.cid|default:"-" }}</td>
+							<td>
+								{% if r.reference %}
+								<a href="{{ r.reference }}" target="_blank" rel="noopener">Link</a>
+								{% else %}
+								-
+								{% endif %}
+							</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	{% else %}
+		<p class="text-muted">No results found for your query.</p>
+	{% endif %}
 
-</section>
+	</section>
 {% endif %}
 
 
