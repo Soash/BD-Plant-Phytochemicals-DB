@@ -1,0 +1,228 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<section class="hero-section text-center py-5 bg-light">
+  <div class="container">
+	<h2 class="db-title display-5">Bangladeshi Medicinal Plant Phytochemicals Database</h2>
+	<p class="text-muted">1<sup>st</sup> Medicinal Plant Phytochemicals Database in Bangladesh</p>
+
+	<!-- SEARCH FORM -->
+	<form method="get" action="">
+	  <div class="search-container mt-4">
+		<div class="input-group mb-3">
+		  <input type="text" name="q" value="{{ query }}" class="form-control"
+			placeholder="Search by plant name, common name, compound, CID">
+		  <button class="input-group-text btn btn-primary" type="submit">
+			<i class="fa-solid fa-magnifying-glass"></i>
+		  </button>
+		</div>
+	  </div>
+	</form>
+  </div>
+</section>
+
+<!-- SEARCH RESULTS -->
+{% if query %}
+	<section class="container mt-5">
+
+	<h5 class="mb-3">
+		Search results for "<strong>{{ query }}</strong>"
+	</h5>
+
+	{% if results %}
+		<div class="table-responsive">
+			<table id="resultsTable" class="table table-striped table-bordered table-hover">
+				<thead class="table-dark">
+					<tr>
+						<th>Plant Name</th>
+						<th>Common Name(s)</th>
+						<th>Phytochemical</th>
+						<th>CID</th>
+						<th>Reference</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for r in results %}
+						<tr>
+							<td>{{ r.plant_name }}</td>
+							<td>
+								{% if r.common_name %}
+								{{ r.common_name }}
+								{% else %}
+								-
+								{% endif %}
+							</td>
+							<td>{{ r.compound_name }}</td>
+							<td>{{ r.cid|default:"-" }}</td>
+							<td>
+								{% if r.reference %}
+								<a href="{{ r.reference }}" target="_blank" rel="noopener">Link</a>
+								{% else %}
+								-
+								{% endif %}
+							</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	{% else %}
+		<p class="text-muted">No results found for your query.</p>
+	{% endif %}
+
+	</section>
+{% endif %}
+
+
+
+
+
+
+
+
+
+
+
+<section class="py-5 bg-light">
+  <div class="container">
+
+    <!-- Title -->
+    <div class="text-center mb-5">
+      <h2 class="fw-bold">What is BMPPD?</h2>
+      <p class="text-muted">
+        Bangladeshi Medicinal Plant Phytochemicals Database
+      </p>
+    </div>
+
+    <!-- Description Card -->
+    <div class="card shadow-sm mb-4">
+      <div class="card-body p-4">
+        <p class="lead">
+          <strong>BMPPD – Bangladeshi Medicinal Plant Phytochemicals Database</strong>
+          is the first curated phytochemical database of medicinal plants in Bangladesh,
+          developed through two years of dedicated research at
+          <strong>Dawnilab</strong>, the research hub of
+          <strong>Dawn of Bioinformatics Limited, Bangladesh</strong>.
+        </p>
+
+        <p>
+          Dawnilab focuses on transforming scientific knowledge into practical
+          innovations. BMPPD embodies this vision by bridging research and
+          application, providing a structured and reliable resource for natural
+          product exploration.
+        </p>
+
+        <p>
+          The database currently covers more than
+          <strong>700 medicinal plants</strong> and over
+          <strong>120,000 phytochemical compounds</strong>, curated from a wide
+          range of peer-reviewed scientific publications.
+        </p>
+      </div>
+    </div>
+
+    <!-- Why BMPPD -->
+    <div class="row mb-4">
+      <div class="col-md-12">
+        <div class="card shadow-sm">
+          <div class="card-body p-4">
+            <h4 class="fw-semibold mb-3">Why BMPPD?</h4>
+
+            <p>
+              BMPPD provides a centralized platform for researchers,
+              academicians, and pharmaceutical developers to explore the rich
+              medicinal plant diversity of Bangladesh.
+            </p>
+
+            <p>
+              By integrating <strong>cheminformatics</strong> and
+              <strong>bioinformatics</strong> tools, BMPPD enables:
+            </p>
+
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">
+                Accelerated natural product research and drug discovery
+              </li>
+              <li class="list-group-item">
+                Systems-level analysis of phytochemical action mechanisms
+              </li>
+              <li class="list-group-item">
+                Easy access to curated, high-quality, and structured plant–compound data
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Citation -->
+    <div class="card shadow-sm mb-4">
+      <div class="card-body p-4">
+        <h4 class="fw-semibold mb-3">Citation</h4>
+        <p class="mb-2">
+          If you use BMPPD in your research, please cite:
+        </p>
+
+        <blockquote class="blockquote border-start ps-3">
+          <p class="mb-1">
+            Bangladeshi Medicinal Plant Phytochemicals Database (BMPPD),
+            Dawn of Bioinformatics Limited, 2026.
+          </p>
+          <footer>
+            <a href="https://dawnilab.org/bmppd" target="_blank">
+              https://dawnilab.org/bmppd
+            </a>
+          </footer>
+        </blockquote>
+      </div>
+    </div>
+
+    <!-- Commitment -->
+    <div class="card shadow-sm mb-4">
+      <div class="card-body p-4">
+        <h4 class="fw-semibold mb-3">Our Commitment</h4>
+        <ul>
+          <li>
+            Fully developed and funded by
+            <strong>Dawnilab, Dawn of Bioinformatics Limited, Bangladesh</strong>
+          </li>
+          <li>
+            Dedicated to supporting research, innovation, and the sustainable
+            exploration of Bangladesh’s medicinal plant resources
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Disclaimer -->
+    <div class="alert alert-warning shadow-sm">
+      <h5 class="fw-semibold">Disclaimer</h5>
+      <p class="mb-0">
+        This database is intended for research purposes only.
+        Information should not be used for self-diagnosis or treatment.
+      </p>
+    </div>
+
+    <!-- Feedback -->
+    <div class="card shadow-sm mt-4">
+      <div class="card-body p-4">
+        <h4 class="fw-semibold mb-3">Feedback</h4>
+        <p class="mb-0">
+          This is the first version of our database. Further development is
+          planned. If you find any errors or issues, please inform us through
+          our <a href="#">Feedback page</a>.
+        </p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+
+
+
+
+
+{% endblock %}

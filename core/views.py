@@ -2,12 +2,7 @@ from django.shortcuts import render
 from django.db.models import Q
 from .models import Phytochemical
 
-
-from django.shortcuts import render
-from django.db.models import Q
-from .models import Phytochemical
-
-def home(request):
+def bmppd(request):
     query = request.GET.get('q', '').strip()
     results = []
 
@@ -33,13 +28,10 @@ def home(request):
                 'reference': p.reference,
             })
 
-    return render(request, 'core/home.html', {
+    return render(request, 'core/bmppd.html', {
         'query': query,
         'results': results
     })
-
-
-
 
 def about(request):
     return render(request, 'core/about.html')
@@ -47,4 +39,5 @@ def about(request):
 def contact(request):
     return render(request, 'core/contact.html')
 
-
+def home(request):
+    return render(request, 'core/home.html')
