@@ -77,7 +77,7 @@
 								{% endif %}
 							</td>
 							<td>{{ r.compound_name }}</td>
-							<td>{{ r.cid|default:"-" }}</td>
+							<td>CID: {{ r.cid|default:"-" }}</td>
 							<td>
 								{% if r.reference %}
 								<a href="{{ r.reference }}" target="_blank" rel="noopener">Link</a>
