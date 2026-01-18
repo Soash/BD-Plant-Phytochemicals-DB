@@ -1,0 +1,67 @@
+.hero-search {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+/* Pill container */
+.search-pill {
+  width: 100%;
+  max-width: 900px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  background: transparent;
+  border: 3px solid #000;
+  border-radius: 40px;
+  padding: 0 22px;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+/* Focus state */
+.search-pill:focus-within {
+  border-color: #1f3d1f;
+  box-shadow: 0 0 0 4px rgba(31, 61, 31, 0.25);
+}
+
+/* Input */
+.search-pill input {
+  flex: 1;
+  height: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 1.1rem;
+  color: #000;
+}
+
+/* Placeholder */
+.search-pill input::placeholder {
+  color: #2b2b2b;
+  opacity: 0.7;
+}
+
+/* Button */
+.search-pill button {
+  background: transparent;
+  border: none;
+  font-size: 1.25rem;
+  cursor: pointer;
+  color: #000;
+  opacity: 0.6;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+/* Button hover */
+.search-pill button:hover {
+  opacity: 1;
+  transform: scale(1.05);
+}
+
+/* Mobile */
+@media (max-width: 576px) {
+  .search-pill {
+    height: 54px;
+    border-width: 2px;
+  }
+}
