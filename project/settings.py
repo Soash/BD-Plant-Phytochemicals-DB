@@ -36,7 +36,7 @@ if ENVIRONMENT == 'development':
     # ALLOWED_HOSTS = ['*', '127.0.0.1', 'localhost', 'choice-alien-saved.ngrok-free.app']
 else:
     DEBUG = False
-    ALLOWED_HOSTS = ['dawnilab.org', 'www.dawnilab.org']
+    ALLOWED_HOSTS = ['bmppd.dawnilab.org', 'www.bmppd.dawnilab.org', 'dawnilab.org', 'www.dawnilab.org']
 
 
 # Application definition
@@ -171,7 +171,7 @@ if not DEBUG:
     SECURE_BROWSER_XSS_FILTER = True
     X_FRAME_OPTIONS = 'DENY'
     SECURE_CONTENT_TYPE_NOSNIFF = True
-    CSRF_TRUSTED_ORIGINS = ['https://dawnilab.org', 'https://www.dawnilab.org']
+    CSRF_TRUSTED_ORIGINS = ['https://dawnilab.org', 'https://www.dawnilab.org', 'https://bmppd.dawnilab.org', 'https://www.bmppd.dawnilab.org']
 else:
     CSRF_TRUSTED_ORIGINS = ["https://choice-alien-saved.ngrok-free.app",]
 
