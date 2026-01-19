@@ -3,6 +3,9 @@ from django.db.models import Q
 from .models import Phytochemical
 
 def bmppd(request):
+    return render(request, 'core/bmppd.html')
+
+def bmppd_result(request):
     query = request.GET.get('q', '').strip()
     results = []
 
@@ -28,16 +31,24 @@ def bmppd(request):
                 'reference': p.reference,
             })
 
-    return render(request, 'core/bmppd.html', {
+    context = {
         'query': query,
         'results': results
-    })
+    }
+    return render(request, 'core/bmppd_result.html', context)
+
+
+
+
+
+
 
 def about(request):
     return render(request, 'core/about.html')
 
-def contact(request):
-    return render(request, 'core/contact.html')
+def acknowledgement(request):
+    return render(request, 'core/acknowledgement.html')
 
-def home(request):
-    return render(request, 'core/home.html')
+
+
+

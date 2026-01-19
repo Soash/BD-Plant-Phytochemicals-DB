@@ -1,2 +1,133 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+  <div class="container py-4">
+
+    <div class="row">
+        <div class="col-12">
+            <div class="border rounded-2 overflow-hidden">
+            <img
+                src="{% static 'img/about_cover.png' %}"
+                class="img-fluid w-100"
+                style="object-fit: cover;"
+                alt="Dawnilab Lab Setup"
+            />
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== SECTION 1: About BMPPD ========== -->
+    <div class="row align-items-center g-4 mt-4">
+      <!-- Left Text -->
+      <div class="col-lg-7">
+        <h5 class="fw-bold mb-3">About BMPPD</h5>
+
+        <p class="small text-dark mb-3">
+          The Bangladeshi Medicinal Plant Phytochemicals Database (BMPPD) is a research-focused digital resource
+          developed to support the systematic study of medicinal plants and their phytochemical constituents in
+          Bangladesh. It represents the first curated phytochemical database of Bangladeshi medicinal plants,
+          created through two years of dedicated data collection, validation, and organisation.
+        </p>
+
+        <p class="small text-dark mb-3">
+          BMPPD provides a centralised, structured, and searchable platform containing information on more than
+          700 medicinal plants and over 120,000 phytochemical compounds, curated from peer-reviewed scientific
+          literature. The database is designed to assist researchers, students, and pharmaceutical scientists in
+          natural product research, phytochemistry, and early-stage drug discovery.
+        </p>
+
+        <p class="small text-dark mb-0">
+          All information in BMPPD is intended strictly for research and educational purposes, with continuous
+          improvement supported through expert review and user feedback.
+        </p>
+      </div>
+
+      <!-- Right Image -->
+      <div class="col-lg-5 text-center">
+        <img
+          src="{% static 'img/about1.png' %}"
+          class="img-fluid"
+          style="max-height: 220px;"
+          alt="BMPPD Illustration"
+        />
+      </div>
+    </div>
+
+    <!-- Divider -->
+    <hr class="my-4">
+
+    <!-- ========== SECTION 2: About Dawnilab ========== -->
+    <div class="row">
+      <div class="col-12">
+        <h5 class="fw-bold mb-3">About Dawnilab</h5>
+
+        <p class="small text-dark mb-2">
+          Dawnilab is the research and innovation hub of Dawn of Bioinformatics Limited Bangladesh. It focuses on
+          transforming scientific knowledge into practical, data-driven solutions by integrating bioinformatics,
+          cheminformatics, and computational research methodologies.
+        </p>
+
+        <p class="small text-dark mb-2">
+          The core mission of Dawnilab is to develop high-quality research resources, analytical platforms, and
+          digital tools that support life science research and innovation. BMPPD is one of Dawnilab’s flagship
+          research initiatives, reflecting its commitment to data accuracy, transparency, and scientific impact.
+        </p>
+
+        <p class="small text-dark mb-3">
+          Dawnilab supports interdisciplinary collaboration and emphasizes responsible research practices aligned
+          with global scientific standards.
+        </p>
+
+        <!-- Full width image -->
+        <div class="border rounded-2 overflow-hidden">
+          <img
+            src="{% static 'img/DawniLab.webp' %}"
+            class="img-fluid w-100"
+            style="max-height: 280px; object-fit: cover;"
+            alt="Dawnilab Lab Setup"
+          />
+        </div>
+      </div>
+    </div>
+
+    <!-- Divider -->
+    <hr class="my-4">
+
+    <!-- ========== SECTION 3: About Dawn of Bioinformatics ========== -->
+    <div class="row align-items-center g-4">
+      <!-- Left Logo -->
+      <div class="col-lg-3 text-center">
+        <img
+          src="{% static 'img/D.png' %}"
+          class="img-fluid"
+          style="max-height: 120px;"
+          alt="Dawn of Bioinformatics Logo"
+        />
+      </div>
+
+      <!-- Right Text -->
+      <div class="col-lg-9">
+        <h6 class="fw-bold mb-2 text-center text-lg-start">
+          About Dawn of Bioinformatics Ltd. Bangladesh
+        </h6>
+
+        <p class="small text-dark mb-0">
+          Dawn of Bioinformatics Limited Bangladesh represents a pioneering force in the nation’s scientific
+          community as the first company to seamlessly connect the complexities of bioinformatics with practical,
+          real-world applications. We serve as a beacon for researchers, offering a wide range of services
+          including genomics, proteomics, metagenomics, immunoinformatics, transcriptomics, systems biology, and
+          synthetic biology. Founded by a visionary researcher, our company plays a pivotal role in supporting
+          the pharmaceutical and research industries, particularly in the realms of drug and vaccine design.
+          Through initiatives like the Bioinformatics Skill Development Scheme, we empower students with critical
+          expertise and foster international collaborations, advancing the bioinformatics landscape both within
+          Bangladesh and globally.
+        </p>
+      </div>
+    </div>
+
+  </div>
+
+{% endblock %}
 
