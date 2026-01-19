@@ -5,12 +5,42 @@
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'styles.css' %}">
+<style>
+/* Default (Desktop / Large screens) */
+.header1 {
+    font-size: 4rem;
+}
+.header2 {
+    font-size: 1.8rem;
+}
+
+/* Tablet (≤ 992px) */
+@media (max-width: 992px) {
+    .header1 {
+        font-size: 3rem;
+    }
+    .header2 {
+        font-size: 1.5rem;
+    }
+}
+
+/* Mobile (≤ 576px) */
+@media (max-width: 576px) {
+    .header1 {
+        font-size: 2.2rem;
+    }
+    .header2 {
+        font-size: 1.2rem;
+    }
+}
+</style>
+
 {% endblock extra_css %}
   
 
 {% block content %}
 
-<section class="text-center d-flex align-items-center"
+<section class="text-center d-flex"
   style="
     background-image: url('{% static 'cover.png' %}');
     background-size: cover;
@@ -18,9 +48,9 @@
     height: 75vh;
   ">
 
-  <div class="container">
-    <h1 class="fw-bold">Bangladeshi Medicinal Plant <br> Phytochemicals Database</h1>
-    <p class="text-muted">1<sup>st</sup> Medicinal Plant Phytochemicals Database in Bangladesh</p>
+  <div class="container pt-4">
+    <h1 class="fw-bold header1">Bangladeshi Medicinal Plant <br> Phytochemicals Database</h1>
+    <p class="text-muted header2">1<sup>st</sup> Medicinal Plant Phytochemicals Database in Bangladesh</p>
 
 
     <form method="get" action="{% url 'bmppd_result' %}" class="hero-search">
