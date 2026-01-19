@@ -31,10 +31,6 @@
       </div>
     </form>
 
-
-
-
-
   </div>
 </section>
 
@@ -73,7 +69,9 @@
 							<td>CID: {{ r.cid|default:"-" }}</td>
 							<td>
 								{% if r.reference %}
-								<a href="{{ r.reference }}" target="_blank" rel="noopener">Link</a>
+								{% comment %} <a href="{{ r.reference }}" target="_blank" rel="noopener">Link</a> {% endcomment %}
+
+								{{ r.reference }}
 								{% else %}
 								-
 								{% endif %}
