@@ -38,6 +38,12 @@ def bmppd_result(request):
     return render(request, 'core/bmppd_result.html', context)
 
 
+from django.http import JsonResponse
+
+def reference(request):
+    ref = request.GET.get("ref", "")
+    return render(request, 'core/reference.html', {'reference': ref})
+
 
 
 

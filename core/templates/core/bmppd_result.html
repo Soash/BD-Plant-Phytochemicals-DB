@@ -71,7 +71,9 @@
 								{% if r.reference %}
 								{% comment %} <a href="{{ r.reference }}" target="_blank" rel="noopener">Link</a> {% endcomment %}
 
-								{{ r.reference }}
+								<a href="{% url 'reference' %}?ref={{ r.reference|urlencode }}">
+									Link
+								</a>
 								{% else %}
 								-
 								{% endif %}
@@ -90,5 +92,8 @@
 
 
 {% endblock %}
+
+{% block extra_js %}
+{% endblock extra_js %}
 
 
