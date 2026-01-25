@@ -8,7 +8,6 @@ from core.models import Plant, CommonName, Phytochemical
 DATA_DIR = os.path.join(settings.BASE_DIR, 'data')
 DETAILED_LOG_FILE = os.path.join(settings.BASE_DIR, 'phytochemical_import.log')
 SUMMARY_LOG_FILE = os.path.join(settings.BASE_DIR, 'phytochemical_summary.log')
-DUPLICATE_LOG_FILE = os.path.join(settings.BASE_DIR, 'phytochemical_duplicates.log')
 
 
 def clean_text(val):
@@ -18,11 +17,11 @@ def clean_text(val):
 
 
 class Command(BaseCommand):
-    help = "Import phytochemical CSV files with case-insensitive duplicate detection"
+    help = "Import phytochemical CSV files with biologically correct accounting"
 
     def handle(self, *args, **kwargs):
 
-        # ---------- MAIN LOGGER ----------
+        # ---------- LOGGERS ----------
         logger = logging.getLogger('phytochemical_import')
         logger.setLevel(logging.INFO)
         logger.handlers.clear()
@@ -32,7 +31,6 @@ class Command(BaseCommand):
         logger.addHandler(fh)
         logger.addHandler(logging.StreamHandler())
 
-        # ---------- SUMMARY LOGGER ----------
         summary_logger = logging.getLogger('phytochemical_summary')
         summary_logger.setLevel(logging.INFO)
         summary_logger.handlers.clear()
@@ -40,15 +38,6 @@ class Command(BaseCommand):
         sh = logging.FileHandler(SUMMARY_LOG_FILE, mode='w', encoding='utf-8')
         sh.setFormatter(logging.Formatter('%(message)s'))
         summary_logger.addHandler(sh)
-
-        # ---------- DUPLICATE LOGGER ----------
-        dup_logger = logging.getLogger('phytochemical_duplicates')
-        dup_logger.setLevel(logging.INFO)
-        dup_logger.handlers.clear()
-
-        dh = logging.FileHandler(DUPLICATE_LOG_FILE, mode='w', encoding='utf-8')
-        dh.setFormatter(logging.Formatter('%(message)s'))
-        dup_logger.addHandler(dh)
 
         # ---------- GLOBAL TOTALS ----------
         plants_created = 0
@@ -70,11 +59,11 @@ class Command(BaseCommand):
 
             total_rows = 0
             rows_with_compound = 0
+            rows_common_only = 0
             phytochem_created = 0
             phytochem_existing = 0
             rows_without_compound = []
 
-            # ---------- READ CSV ----------
             try:
                 with open(file_path, encoding='utf-8-sig', newline='') as f:
                     reader = csv.DictReader(f)
@@ -105,7 +94,6 @@ class Command(BaseCommand):
                 cid = clean_text(row.get('cid'))
                 reference = clean_text(row.get('reference'))
 
-                # ----- PLANT -----
                 if plant_name:
                     current_plant, created = Plant.objects.get_or_create(
                         scientific_name=plant_name
@@ -117,7 +105,6 @@ class Command(BaseCommand):
                 if not current_plant:
                     continue
 
-                # ----- COMMON NAME -----
                 if common_name:
                     cn, created = CommonName.objects.get_or_create(
                         plant=current_plant,
@@ -127,53 +114,36 @@ class Command(BaseCommand):
                         common_names_created += 1
                         logger.info(f"Row {i}: Added Common Name: {common_name}")
 
-                # ----- NO COMPOUND -----
                 if not compound:
+                    rows_common_only += 1
                     rows_without_compound.append(str(i))
                     continue
 
                 rows_with_compound += 1
 
-                # ---------- CASE-INSENSITIVE LOOKUP ----------
-                existing = Phytochemical.objects.filter(
-                    plant=current_plant,
-                    compound_name__iexact=compound
-                ).first()
-
-                if existing:
-                    phytochem_existing += 1
-                    phytochem_existing_total += 1
-
-                    # ----- DUPLICATE LOG (FOR CLEANUP) -----
-                    dup_logger.info(
-                        f"FILE={filename} | ROW={i} | PLANT={current_plant.scientific_name} | "
-                        f"INCOMING='{compound}' | EXISTING='{existing.compound_name}' | "
-                        f"PHYTOCHEM_ID={existing.id}"
-                    )
-
-                    # Update reference if missing
-                    if not existing.reference and reference:
-                        existing.reference = reference
-                        existing.save()
-
-                    continue
-
-                # ---------- CREATE NEW PHYTOCHEM ----------
                 try:
-                    Phytochemical.objects.create(
+                    obj, created = Phytochemical.objects.get_or_create(
                         plant=current_plant,
                         compound_name=compound,
                         cid=cid,
-                        reference=reference
+                        defaults={'reference': reference}
                     )
-                    phytochem_created += 1
-                    phytochem_created_total += 1
-                    logger.info(f"Row {i}: Added Phytochemical: {compound}")
+
+                    if created:
+                        phytochem_created += 1
+                        phytochem_created_total += 1
+                        logger.info(f"Row {i}: Added Phytochemical: {compound}")
+                    else:
+                        phytochem_existing += 1
+                        phytochem_existing_total += 1
+                        if not obj.reference and reference:
+                            obj.reference = reference
+                            obj.save()
 
                 except Exception as e:
                     logger.error(f"Row {i}: DB error for {compound}: {e}")
 
-            # ---------- SUMMARY ----------
+            # ---------- CONDITIONAL SUMMARY ----------
             summary_parts = [
                 f"{filename}: Total rows={total_rows}",
                 f"Rows with phytochemicals={rows_with_compound}",
@@ -181,7 +151,11 @@ class Command(BaseCommand):
                 f"Phytochemicals already existed={phytochem_existing}",
             ]
 
-            if rows_without_compound and rows_with_compound != phytochem_created:
+            # Log rows without compounds ONLY if meaningful
+            if (
+                rows_without_compound
+                and rows_with_compound != phytochem_created
+            ):
                 summary_parts.append(
                     f"Rows without compounds={', '.join(rows_without_compound)}"
                 )
@@ -200,5 +174,3 @@ class Command(BaseCommand):
         summary_logger.info(f"Common names created: {common_names_created}")
         summary_logger.info(f"Phytochemicals created: {phytochem_created_total}")
         summary_logger.info(f"Phytochemicals already existed: {phytochem_existing_total}")
-
-
