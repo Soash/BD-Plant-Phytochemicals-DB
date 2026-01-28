@@ -39,6 +39,7 @@ def bmppd_result(request):
 
 
 from django.http import JsonResponse
+from collections import Counter
 
 def reference(request):
     ref = request.GET.get("ref", "")
@@ -52,10 +53,32 @@ def reference(request):
 def about(request):
     return render(request, 'core/about.html')
 
+
+
+
+from django.shortcuts import render
+from django.db.models import Count
+from .models import Phytochemical
+
 def acknowledgement(request):
-    unique_phytochemical_count = Phytochemical.objects.values('compound_name').distinct().count()
-    # print(unique_phytochemical_count)
-    return render(request, 'core/acknowledgement.html')
+    # Aggregate compound counts in DB
+    # compounds = (
+    #     Phytochemical.objects
+    #     .values('compound_name')
+    #     .annotate(total_count=Count('id'))
+    #     .order_by('-total_count')
+    # )
+
+    # # Write to log file (UTF-8 safe)
+    # with open('phytochemical_log.txt', 'w', encoding='utf-8') as log_file:
+    #     for c in compounds:
+    #         log_file.write(f"{c['compound_name']}: {c['total_count']}\n")
+
+    return render(
+        request,
+        'core/acknowledgement.html',
+    )
+
 
 
 
