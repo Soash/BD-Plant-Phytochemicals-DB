@@ -1,5 +1,6 @@
 from django.contrib import admin
 from .models import Plant, CommonName, Phytochemical
+from django.db.models import Count
 
 
 # --- Inline Admins ---
@@ -15,20 +16,32 @@ class PhytochemicalInline(admin.TabularInline):
     autocomplete_fields = ['plant']
 
 
-# --- Plant Admin ---
 @admin.register(Plant)
 class PlantAdmin(admin.ModelAdmin):
     search_fields = ('scientific_name',)
-    list_display = ('scientific_name', 'common_names_list', 'phytochemicals_count')
+    list_display = (
+        'scientific_name',
+        'common_names_list',
+        'phytochemicals_count',
+    )
     inlines = [CommonNameInline, PhytochemicalInline]
 
+    # 🔹 IMPORTANT: annotate queryset
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        return qs.annotate(phytochemicals_total=Count('phytochemicals'))
+
     def common_names_list(self, obj):
-        return ", ".join([cn.name for cn in obj.common_names.all()])
+        return ", ".join(obj.common_names.values_list('name', flat=True))
     common_names_list.short_description = "Common Names"
 
     def phytochemicals_count(self, obj):
-        return obj.phytochemicals.count()
+        return obj.phytochemicals_total
+
+    # 🔹 Enable sorting
+    phytochemicals_count.admin_order_field = 'phytochemicals_total'
     phytochemicals_count.short_description = "Number of Phytochemicals"
+
 
 
 # --- Common Name Admin ---
