@@ -53,6 +53,8 @@ def about(request):
     return render(request, 'core/about.html')
 
 def acknowledgement(request):
+    unique_phytochemical_count = Phytochemical.objects.values('compound_name').distinct().count()
+    print(unique_phytochemical_count)
     return render(request, 'core/acknowledgement.html')
 
 
